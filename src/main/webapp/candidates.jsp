@@ -35,6 +35,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Фото</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,15 @@
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${can.name}"/>
+                            </td>
+                            <td>
+                                <img src="<c:url value='/download?name=${can.id}'/>" width="100px" height="100px"/>
+                                <a href='<c:url value="/photoDelete?id=${can.id}"/>'>
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                <a href='<c:url value="/photoUpload.jsp?id=${can.id}"/>'>
+                                    <i class="fa fa-plus"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
