@@ -27,8 +27,7 @@ public class PhotoUploadServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File(
-                    "/Users/oryngalikarimzhan/IdeaProjects/job4j_dreamjob/./src/main/webapp/images/");
+            File folder = new File(Link.get().getProperty("images.url"));
             if (!folder.exists()) {
                 folder.mkdir();
             }

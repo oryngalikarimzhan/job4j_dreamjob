@@ -14,9 +14,7 @@ public class DownloadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         File downloadFile = null;
-        for (File file : new File(
-                "/Users/oryngalikarimzhan/IdeaProjects/job4j_dreamjob/./src/main/webapp/images/")
-                .listFiles()) {
+        for (File file : new File(Link.get().getProperty("images.url")).listFiles()) {
             String fileName = file.getName();
             fileName = fileName.substring(0, fileName.lastIndexOf("."));
             if (name.equals(file.getName()) || name.equals(fileName)) {
