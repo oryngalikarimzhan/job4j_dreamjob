@@ -1,11 +1,12 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,9 +17,9 @@ import java.util.List;
 import java.util.Properties;
 
 public class DbStore implements Store {
-    private static final DbStore instance = new DbStore();
 
     private final BasicDataSource pool = new BasicDataSource();
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
 
     private DbStore() {
         Properties cfg = new Properties();
@@ -65,7 +66,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return posts;
     }
@@ -81,7 +82,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return candidates;
     }
@@ -116,7 +117,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return post;
     }
@@ -134,7 +135,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return candidate;
     }
@@ -148,7 +149,7 @@ public class DbStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
     }
 
@@ -161,7 +162,7 @@ public class DbStore implements Store {
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
     }
 
@@ -176,7 +177,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return null;
     }
@@ -193,7 +194,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during connection", e);
         }
         return null;
     }
