@@ -16,7 +16,7 @@
 %>
 <div class="container">
     <h2>Upload photo</h2>
-    <form action="<%=request.getContextPath()%>/photoUpload?id=<%=id%>" method="post" enctype="multipart/form-data">
+    <form action="<%=request.getContextPath()%>/photoUpload.do?id=<%=id%>" method="post" enctype="multipart/form-data">
 
         <div class="checkbox">
             <input type="file" name="file">
