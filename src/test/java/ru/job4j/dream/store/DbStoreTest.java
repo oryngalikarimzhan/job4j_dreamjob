@@ -48,11 +48,11 @@ public class DbStoreTest {
     @After
     public void wipeTable() throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(
-                "ALTER SEQUENCE post_id_seq RESTART WITH 1;"
+                "ALTER TABLE candidate ALTER COLUMN id RESTART WITH 1;"
+                + "DELETE FROM candidate;"
+                + "ALTER TABLE post ALTER COLUMN id RESTART WITH 1;"
                 + "DELETE FROM post;"
-                + "ALTER SEQUENCE candidate_id_seq RESTART WITH 1;"
-                + "DELETE FROM post;"
-                + "ALTER SEQUENCE users_id_seq RESTART WITH 1;"
+                + "ALTER TABLE users ALTER COLUMN id RESTART WITH 1;"
                 + "DELETE FROM users;")) {
             statement.execute();
         }
