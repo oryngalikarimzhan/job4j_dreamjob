@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.store.DbStore" %>
-<%@ page import="ru.job4j.dream.model.Candidate" %>
+<%@ page import="ru.job4j.dream.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
 <html lang="en">
@@ -23,11 +22,7 @@
 </head>
 <body>
 <%
-    String id = request.getParameter("id");
-    Candidate can = new Candidate(0, "");
-    if (id != null) {
-        can = DbStore.instOf().findCandidateById(Integer.valueOf(id));
-    }
+    User user = new User(0, "", "", "");
 %>
 <div class="container pt-3">
     <div class="row">
@@ -48,34 +43,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/user/edit.jsp">Регистрация</a>
-                </li>
-            </c:if>
-            <c:if test="${user != null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
-                </li>
             </c:if>
         </ul>
     </div>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                <% if (id == null) { %>
-                Новый кандидат.
-                <% } else { %>
-                Редактирование данных кандидата.
-                <% } %>
+                Регистрация нового пользователя.
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=can.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/userReg?id=<%=user.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
+                        <input type="text" class="form-control" name="name" value="<%=user.getName()%>">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" value="<%=user.getEmail()%>">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="text" class="form-control" name="password" value="<%=user.getPassword()%>">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

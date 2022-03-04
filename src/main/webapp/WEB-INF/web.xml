@@ -13,7 +13,18 @@
     <filter-name>AuthFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
-
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/user/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/candidate/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/post/*</url-pattern>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>PostServlet</servlet-name>
@@ -32,10 +43,6 @@
     <servlet-class>ru.job4j.dream.servlet.DownloadServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>UploadServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.UploadServlet</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>PhotoUploadServlet</servlet-name>
     <servlet-class>ru.job4j.dream.servlet.PhotoUploadServlet</servlet-class>
   </servlet>
@@ -50,6 +57,18 @@
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>ru.job4j.dream.servlet.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.UserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserRegServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.UserRegServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.DeleteServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -69,10 +88,6 @@
     <url-pattern>/download</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>UploadServlet</servlet-name>
-    <url-pattern>/upload</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>PhotoUploadServlet</servlet-name>
     <url-pattern>/photoUpload.do</url-pattern>
   </servlet-mapping>
@@ -87,5 +102,21 @@
   <servlet-mapping>
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/logout.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/userProfile.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserRegServlet</servlet-name>
+    <url-pattern>/userReg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/users.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteServlet</servlet-name>
+    <url-pattern>/delete</url-pattern>
   </servlet-mapping>
 </web-app>

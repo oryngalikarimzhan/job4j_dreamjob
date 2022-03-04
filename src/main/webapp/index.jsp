@@ -20,7 +20,7 @@
     <title>Работа мечты</title>
 </head>
 <body>
-<div class="container">
+<div class="container pt-3">
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
@@ -39,10 +39,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
+                </li>
             </c:if>
             <c:if test="${user != null}">
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"><c:out value="${user.name}"/> | Выйти</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
                 </li>
             </c:if>
         </ul>

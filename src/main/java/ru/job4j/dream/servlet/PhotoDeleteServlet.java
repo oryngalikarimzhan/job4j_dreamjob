@@ -26,6 +26,6 @@ public class PhotoDeleteServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        resp.sendRedirect(req.getContextPath() + "/candidates.do");
+        resp.sendRedirect(req.getHeader("referer"));
     }
 }

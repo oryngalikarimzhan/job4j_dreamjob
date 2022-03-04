@@ -44,6 +44,6 @@ public class PhotoUploadServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        resp.sendRedirect(req.getContextPath() + "/candidates.do");
+        resp.sendRedirect(req.getParameter("ref"));
     }
 }

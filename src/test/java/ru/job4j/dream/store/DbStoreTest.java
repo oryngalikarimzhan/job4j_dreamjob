@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -49,10 +48,12 @@ public class DbStoreTest {
     @After
     public void wipeTable() throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(
-                "ALTER TABLE post ALTER COLUMN id RESTART WITH 1;"
+                "ALTER SEQUENCE post_id_seq RESTART WITH 1;"
                 + "DELETE FROM post;"
-                + "ALTER TABLE candidate ALTER COLUMN id RESTART WITH 1;"
-                + "DELETE FROM post;")) {
+                + "ALTER SEQUENCE candidate_id_seq RESTART WITH 1;"
+                + "DELETE FROM post;"
+                + "ALTER SEQUENCE users_id_seq RESTART WITH 1;"
+                + "DELETE FROM users;")) {
             statement.execute();
         }
     }

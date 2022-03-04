@@ -21,34 +21,42 @@
 </head>
 <body>
 <div class="container pt-3">
-
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+            </li>
+            <c:if test="${user == null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
+                </li>
+            </c:if>
+            <c:if test="${user != null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
+                </li>
+            </c:if>
+        </ul>
+    </div>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link">Кандидаты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
-                    </li>
-                    <c:if test="${user == null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${user != null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"><c:out value="${user.name}"/> | Выйти</a>
-                        </li>
-                    </c:if>
-                </ul>
+                Кандидаты
             </div>
             <div class="card-body">
                 <table class="table">
@@ -62,10 +70,14 @@
                     <c:forEach items="${candidates}" var="can">
                         <tr>
                             <td>
+                                <a href='<c:url value="/delete?id=${can.id}&obj=${'can'}"/>'>
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                                &nbsp;
+                                <c:out value="${can.name}"/>
                                 <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
-                                <c:out value="${can.name}"/>
                             </td>
                             <td>
                                 <img src="<c:url value='/download?name=${can.id}'/>" width="100px" height="100px"/>
