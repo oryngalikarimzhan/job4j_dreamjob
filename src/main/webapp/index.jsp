@@ -40,7 +40,7 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
                 </li>
             </c:if>
             <c:if test="${user != null}">

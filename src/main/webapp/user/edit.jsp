@@ -44,11 +44,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
-            <c:if test="${user == null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
-                </li>
-            </c:if>
             <c:if test="${user != null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
@@ -65,7 +60,7 @@
                 Редактирование данных пользователя.
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/users.do?id=<%=user.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/redact.do?id=<%=user.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=user.getName()%>">

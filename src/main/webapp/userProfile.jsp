@@ -37,14 +37,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
-            <c:if test="${user == null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
-                </li>
-            </c:if>
             <c:if test="${user != null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
@@ -73,8 +65,8 @@
                     <tr>
                         <td>
 
-                            <img src="<c:url value='/download?name=${user.email}'/>" width="200px" height="200px"/>
-                            <a href='<c:url value="/photoDelete?id=${user.email}"/>'>
+                            <img src="<c:url value='/download.do?name=${user.email}'/>" width="200px" height="200px"/>
+                            <a href='<c:url value="/photoDelete.do?id=${user.email}"/>'>
                                 <i class="fa fa-trash"></i>
                             </a>
                             <a href='<c:url value="/photoUpload.jsp?id=${user.email}"/>'>
@@ -90,14 +82,14 @@
                             <a>Email пользователя - </a>
                             <c:out value="${user.email}"/>
                             <br>
-                            <a href='<c:url value="/user/edit.jsp?email=${user.email}"/>'>
+                            <a href='<c:url value="/user/edit.jsp?id=${user.email}"/>'>
                                 <i class="fa fa-edit mr-3"></i>Редактировать данные
                             </a>
                             <br>
                             <br>
                             <br>
                             <br>
-                            <a href='<c:url value="/delete?id=${user.id}&obj=${'user'}"/>'>
+                            <a href='<c:url value="/delete.do?id=${user.email}&obj=${'user'}"/>'>
                                 <i class="fa fa-minus"></i>  Удалить аккаунт
                             </a>
                         </td>

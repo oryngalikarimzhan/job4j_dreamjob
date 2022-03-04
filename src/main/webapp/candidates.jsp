@@ -35,14 +35,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
-            <c:if test="${user == null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
-                </li>
-            </c:if>
             <c:if test="${user != null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
@@ -70,7 +62,7 @@
                     <c:forEach items="${candidates}" var="can">
                         <tr>
                             <td>
-                                <a href='<c:url value="/delete?id=${can.id}&obj=${'can'}"/>'>
+                                <a href='<c:url value="/delete.do?id=${can.id}&obj=${'can'}"/>'>
                                     <i class="fa fa-minus"></i>
                                 </a>
                                 &nbsp;
@@ -80,8 +72,8 @@
                                 </a>
                             </td>
                             <td>
-                                <img src="<c:url value='/download?name=${can.id}'/>" width="100px" height="100px"/>
-                                <a href='<c:url value="/photoDelete?id=${can.id}"/>'>
+                                <img src="<c:url value='/download.do?name=${can.id}'/>" width="100px" height="100px"/>
+                                <a href='<c:url value="/photoDelete.do?id=${can.id}"/>'>
                                     <i class="fa fa-trash"></i>
                                 </a>
                                 <a href='<c:url value="/photoUpload.jsp?id=${can.id}"/>'>

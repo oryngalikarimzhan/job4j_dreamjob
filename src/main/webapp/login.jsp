@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/index.jsp">Главная страница</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
+            </li>
         </ul>
     </div>
     <div class="row">

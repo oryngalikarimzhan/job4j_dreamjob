@@ -36,14 +36,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
-            <c:if test="${user == null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Вoйти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/registration.jsp">Регистрация</a>
-                </li>
-            </c:if>
             <c:if test="${user != null}">
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/userProfile.do"><c:out value="${user.name}"/></a>
@@ -71,7 +63,7 @@
                     <c:forEach items="${posts}" var="post">
                         <tr>
                             <td>
-                                <a href='<c:url value="/delete?id=${post.id}&obj=${'post'}"/>'>
+                                <a href='<c:url value="/delete.do?id=${post.id}&obj=${'post'}"/>'>
                                     <i class="fa fa-minus"></i>
                                 </a>
                                 &nbsp;

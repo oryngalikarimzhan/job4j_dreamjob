@@ -22,5 +22,5 @@ public interface Store {
     User findUserByEmail(String email);
     User findUserById(int id);
     Collection<User> findAllUsers();
-    User deleteUser(int id);
+    User deleteUser(String email);
 }

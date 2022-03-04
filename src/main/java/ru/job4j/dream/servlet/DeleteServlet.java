@@ -15,10 +15,11 @@ public class DeleteServlet extends HttpServlet {
         String delObjParam = req.getParameter("obj");
         if ("can".equals(delObjParam)) {
             DbStore.instOf().deleteCandidate(Integer.valueOf(id));
-            req.getRequestDispatcher("/photoDelete").include(req, resp);
+            req.getRequestDispatcher("/photoDelete.do").include(req, resp);
             resp.sendRedirect(req.getHeader("referer"));
         } else if ("user".equals(delObjParam)) {
-            DbStore.instOf().deleteUser(Integer.valueOf(id));
+            DbStore.instOf().deleteUser(id);
+            req.getRequestDispatcher("/photoDelete.do").include(req, resp);
             resp.sendRedirect(req.getContextPath() + "/logout.do");
         } else if ("post".equals(delObjParam)) {
             DbStore.instOf().deletePost(Integer.valueOf(id));

@@ -8,7 +8,6 @@
     <filter-name>AuthFilter</filter-name>
     <filter-class>ru.job4j.dream.filter.AuthFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
     <url-pattern>*.do</url-pattern>
@@ -63,8 +62,8 @@
     <servlet-class>ru.job4j.dream.servlet.UserServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>UserRegServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.UserRegServlet</servlet-class>
+    <servlet-name>RegServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.RegServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>DeleteServlet</servlet-name>
@@ -85,7 +84,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
-    <url-pattern>/download</url-pattern>
+    <url-pattern>/download.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PhotoUploadServlet</servlet-name>
@@ -93,7 +92,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PhotoDeleteServlet</servlet-name>
-    <url-pattern>/photoDelete</url-pattern>
+    <url-pattern>/photoDelete.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AuthServlet</servlet-name>
@@ -108,15 +107,15 @@
     <url-pattern>/userProfile.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>UserRegServlet</servlet-name>
-    <url-pattern>/userReg</url-pattern>
+    <servlet-name>RegServlet</servlet-name>
+    <url-pattern>/reg.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/users.do</url-pattern>
+    <servlet-name>RegServlet</servlet-name>
+    <url-pattern>/redact.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DeleteServlet</servlet-name>
-    <url-pattern>/delete</url-pattern>
+    <url-pattern>/delete.do</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -52,7 +52,7 @@
                 Регистрация нового пользователя.
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/userReg?id=<%=user.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do?id=<%=user.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=user.getName()%>">

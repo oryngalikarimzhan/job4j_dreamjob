@@ -355,13 +355,13 @@ public class DbStore implements Store {
     }
 
     @Override
-    public User deleteUser(int id) {
-        User user = findUserById(id);
+    public User deleteUser(String email) {
+        User user = findUserByEmail(email);
         if (user != null) {
             try (Connection cn = pool.getConnection();
-                 PreparedStatement ps = cn.prepareStatement("DELETE FROM users WHERE id = ?")
+                 PreparedStatement ps = cn.prepareStatement("DELETE FROM users WHERE email = ?")
             ) {
-                ps.setInt(1, id);
+                ps.setString(1, email);
                 ps.execute();
             } catch (Exception e) {
                 LOG.error("Exception during connection", e);
