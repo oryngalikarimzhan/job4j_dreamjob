@@ -81,6 +81,16 @@
                             <br>
                             <a>Email пользователя - </a>
                             <c:out value="${user.email}"/>
+                            <c:if test="${not empty message}">
+                                <div style="color:green; font-weight: bold; margin: 30px 0;">
+                                    <c:out value="${message}"/>
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty error}">
+                                <div style="color:red; font-weight: bold; margin: 30px 0;">
+                                    <c:out value="${error}"/>
+                                </div>
+                            </c:if>
                             <br>
                             <a href='<c:url value="/user/edit.jsp?id=${user.email}"/>'>
                                 <i class="fa fa-edit mr-3"></i>Редактировать данные

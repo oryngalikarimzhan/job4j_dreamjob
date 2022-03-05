@@ -18,14 +18,22 @@ public class RegServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        DbStore.instOf().save(
-                new User(
-                        Integer.valueOf(req.getParameter("id")),
-                        req.getParameter("name"),
-                        req.getParameter("email"),
-                        req.getParameter("password")
-                )
-        );
-        resp.sendRedirect(req.getContextPath() + "/userProfile.do");
+        String email = req.getParameter("email");
+        User user = DbStore.instOf().findUserByEmail(email);
+        if (user == null) {
+            DbStore.instOf().save(
+                    new User(
+                            Integer.valueOf(req.getParameter("id")),
+                            req.getParameter("name"),
+                            email,
+                            req.getParameter("password")
+                    )
+            );
+            req.setAttribute("message", "Вы успешно зарегистрированы");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("error", "Пользователь с таким email адресом уже существует");
+            req.getRequestDispatcher("reg.jsp").forward(req, resp);
+        }
     }
 }

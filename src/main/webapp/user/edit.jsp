@@ -23,7 +23,7 @@
 </head>
 <body>
 <%
-    String email = request.getParameter("email");
+    String email = request.getParameter("id");
     User user = new User(0, "", "", "");
     if (email != null) {
         user = DbStore.instOf().findUserByEmail(email);
@@ -60,14 +60,10 @@
                 Редактирование данных пользователя.
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/redact.do?id=<%=user.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/redact.do?email=<%=email%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=user.getName()%>">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" class="form-control" name="email" value="<%=user.getEmail()%>">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>

@@ -37,6 +37,11 @@
                 Авторизация
             </div>
             <div class="card-body">
+                <c:if test="${not empty message}">
+                    <div style="color:green; font-weight: bold; margin: 30px 0;">
+                        <c:out value="${message}"/>
+                    </div>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
