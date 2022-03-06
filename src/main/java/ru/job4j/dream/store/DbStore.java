@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,14 @@ public class DbStore implements Store {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+        createDataSource(cfg);
+    }
+
+    private DbStore(Properties cfg) {
+        createDataSource(cfg);
+    }
+
+    private void createDataSource(Properties cfg) {
         try {
             Class.forName(cfg.getProperty("jdbc.driver"));
         } catch (Exception e) {
@@ -48,6 +57,7 @@ public class DbStore implements Store {
         pool.setMaxOpenPreparedStatements(100);
     }
 
+
     private static final class Lazy {
         private static final Store INST = new DbStore();
     }
@@ -56,9 +66,22 @@ public class DbStore implements Store {
         return Lazy.INST;
     }
 
+    public static Store instOf(Properties cfg) {
+        return new DbStore(cfg);
+    }
+
     /**
      * ==================== Post methods ======================
      * */
+
+    public Connection getConnection() {
+        try {
+            return pool.getConnection();
+        } catch (SQLException e) {
+            LOG.error("Exception during connection", e);
+        }
+        return null;
+    }
 
     public void save(Post post) {
         if (post.getId() == 0) {

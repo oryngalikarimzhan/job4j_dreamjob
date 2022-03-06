@@ -4,14 +4,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ru.job4j.dream.ReStarter;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
-
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
@@ -20,47 +15,26 @@ import static org.hamcrest.Matchers.is;
 
 public class DbStoreTest {
 
-    private static Connection connection;
+    private static Properties config;
 
     @BeforeClass
-    public static void initConnection() {
-        try (InputStream in = DbStoreTest.class.getClassLoader()
-                .getResourceAsStream("db.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("jdbc.driver"));
-            connection = DriverManager.getConnection(
-                    config.getProperty("jdbc.url"),
-                    config.getProperty("jdbc.username"),
-                    config.getProperty("jdbc.password")
-
-            );
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+    public static void init() {
+        config = ReStarter.loadConfig();
     }
 
     @AfterClass
-    public static void closeConnection() throws SQLException {
-        connection.close();
+    public static void closeConnection() {
+        ReStarter.closeConnection();
     }
 
     @After
-    public void wipeTable() throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "ALTER TABLE candidate ALTER COLUMN id RESTART WITH 1;"
-                + "DELETE FROM candidate;"
-                + "ALTER TABLE post ALTER COLUMN id RESTART WITH 1;"
-                + "DELETE FROM post;"
-                + "ALTER TABLE users ALTER COLUMN id RESTART WITH 1;"
-                + "DELETE FROM users;")) {
-            statement.execute();
-        }
+    public void wipeTable(){
+        ReStarter.wipeTable();
     }
 
     @Test
     public void whenCreatePost() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Post post = new Post(0, "Java Job");
         store.save(post);
         post.setId(1);
@@ -70,7 +44,7 @@ public class DbStoreTest {
 
     @Test
     public void whenUpdatePost() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Post post = new Post(0, "Java Job");
         Post post1 = new Post(1, "Java Job");
         store.save(post);
@@ -81,7 +55,7 @@ public class DbStoreTest {
 
     @Test
     public void whenFindAllPosts() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Post post = new Post(0, "Java Job");
         store.save(post);
         post.setId(1);
@@ -90,7 +64,7 @@ public class DbStoreTest {
 
     @Test
     public void whenCreateCandidate() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Candidate candidate = new Candidate(0, "Java Developer");
         store.save(candidate);
         candidate.setId(1);
@@ -100,7 +74,7 @@ public class DbStoreTest {
 
     @Test
     public void whenUpdateCandidate() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Candidate candidate = new Candidate(0, "Java Developer");
         Candidate candidate1 = new Candidate(1, "Java Developer");
         store.save(candidate);
@@ -111,7 +85,7 @@ public class DbStoreTest {
 
     @Test
     public void whenFindAllCandidates() {
-        Store store = DbStore.instOf();
+        Store store = DbStore.instOf(config);
         Candidate candidate = new Candidate(0, "Java Developer");
         store.save(candidate);
         candidate.setId(1);
