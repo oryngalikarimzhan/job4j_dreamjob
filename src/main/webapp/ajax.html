@@ -28,18 +28,32 @@
   <script>
     function sendGreeting() {
       $.ajax({
-          type: 'GET',
-          url: 'http://localhost:8080/dreamjob/greet',
-          data: 'name=' + $('#email').val(),
-          dataType: 'text'
+        type: 'POST',
+        url: 'http://localhost:8080/dreamjob/greet',
+        data: JSON.stringify({
+          name: $('#email').val()
+        }),
+        dataType: 'json'
       }).done(function(data) {
-          $('#form-greeter').before('<h3>' + $('#email').val() + '</h3>');
-          alert(data);
+          $('#emailList li:last').append(`<li>${data.name}</li>`)
           document.getElementById('form-greeter').reset();
       }).fail(function (err) {
-          alert(err);
+          alert(err)
       });
     }
+    $(document).ready(function () {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/dreamjob/greet',
+        dataType: 'json'
+      }).done(function (data) {
+        for (var email of data) {
+          $('#emailList li:last').append(`<li>${email.name}</li>`)
+        }
+      }).fail(function (err) {
+        console.log(err);
+      });
+    });
   </script>
   <body>
   <div class="container">
@@ -50,6 +64,12 @@
       </div>
       <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
     </form>
+    <br>
+    Почты:
+    <ul id="emailList">
+      <li></li>
+    </ul>
   </div>
+
   </body>
 </html>
