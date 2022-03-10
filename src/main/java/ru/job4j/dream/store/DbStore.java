@@ -4,15 +4,13 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,7 +55,6 @@ public class DbStore implements Store {
         pool.setMaxOpenPreparedStatements(100);
     }
 
-
     private static final class Lazy {
         private static final Store INST = new DbStore();
     }
@@ -74,15 +71,6 @@ public class DbStore implements Store {
      * ==================== Post methods ======================
      * */
 
-    public Connection getConnection() {
-        try {
-            return pool.getConnection();
-        } catch (SQLException e) {
-            LOG.error("Exception during connection", e);
-        }
-        return null;
-    }
-
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -93,10 +81,12 @@ public class DbStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, created) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
+            Timestamp created = Timestamp.valueOf(post.getCreated());
             ps.setString(1, post.getName());
+            ps.setTimestamp(2, created);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -170,6 +160,27 @@ public class DbStore implements Store {
         return post;
     }
 
+    @Override
+    public Collection<Post> findLastPosts() {
+        List<Post> posts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post "
+                             + "WHERE created "
+                             + "BETWEEN CURRENT_TIMESTAMP - INTERVAL '1 DAY' "
+                             + "AND CURRENT_TIMESTAMP;")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return posts;
+    }
+
     /**
      * ==================== Candidate methods ======================
      * */
@@ -185,10 +196,13 @@ public class DbStore implements Store {
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name, city_id ,created) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
+            Timestamp created = Timestamp.valueOf(candidate.getCreated());
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
+            ps.setTimestamp(3, created);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -203,11 +217,12 @@ public class DbStore implements Store {
 
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE candidate SET name = (?) WHERE id = (?)",
+             PreparedStatement ps =  cn.prepareStatement("UPDATE candidate SET name = (?), city_id = (?) WHERE id = (?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
-            ps.setInt(2, candidate.getId());
+            ps.setInt(2, candidate.getCityId());
+            ps.setInt(3, candidate.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error("Exception during connection", e);
@@ -221,7 +236,11 @@ public class DbStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(
+                            new Candidate(
+                                    it.getInt("id"),
+                                    it.getString("name"),
+                                    it.getInt("city_id")));
                 }
             }
         } catch (Exception e) {
@@ -238,7 +257,10 @@ public class DbStore implements Store {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Candidate(it.getInt("id"), it.getString("name"));
+                    return new Candidate(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getInt("city_id"));
                 }
             }
         } catch (Exception e) {
@@ -261,6 +283,31 @@ public class DbStore implements Store {
             }
         }
         return candidate;
+    }
+
+    @Override
+    public Collection<Candidate> findLastCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM candidate "
+                             + "WHERE created "
+                             + "BETWEEN CURRENT_TIMESTAMP - INTERVAL '1 DAY' "
+                             + "AND CURRENT_TIMESTAMP ")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(
+                            new Candidate(
+                                    it.getInt("id"),
+                                    it.getString("name"),
+                                    it.getInt("city_id")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return candidates;
     }
 
     /**
@@ -298,7 +345,8 @@ public class DbStore implements Store {
 
     private void update(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE users SET name = (?), password = (?) WHERE email = (?)",
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE users SET name = (?), password = (?) WHERE email = (?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
@@ -392,6 +440,47 @@ public class DbStore implements Store {
         return user;
     }
 
+    /**
+     * ==================== City methods ======================
+     * */
 
+    @Override
+    public City findCityById(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM city WHERE id = ?")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new City(
+                            it.getInt("id"),
+                            it.getString("name")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return null;
+    }
 
+    @Override
+    public Collection<City> findAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM city")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(new City(
+                            it.getInt("id"),
+                            it.getString("name")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return cities;
+    }
 }

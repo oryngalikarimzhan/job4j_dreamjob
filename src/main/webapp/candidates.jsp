@@ -30,6 +30,9 @@
             <div class="row">
                 <ul class="nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная страница</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
                     </li>
                     <li class="nav-item">
@@ -62,31 +65,35 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Названия</th>
+                                <th scope="col">Имя</th>
                                 <th scope="col">Фото</th>
+                                <th scope="col">Город</th>
                             </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${candidates}" var="can">
                                     <tr>
                                         <td>
-                                            <a href='<c:url value="/delete.do?id=${can.id}&obj=${'can'}"/>'>
+                                            <a href='<c:url value="/delete.do?id=${can.key.id}&obj=${'can'}"/>'>
                                                 <i class="fa fa-minus mr-3"></i>
                                             </a>
-                                            <c:out value="${can.name}"/>
-                                            <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
+                                            <c:out value="${can.key.name}"/>
+                                            <a href='<c:url value="/candidate/edit.jsp?id=${can.key.id}"/>'>
                                                 <i class="fa fa-edit mr-3"></i>
                                             </a>
                                         </td>
                                         <td>
-                                            <img src="<c:url value='/download.do?name=${can.id}'/>"
+                                            <img src="<c:url value='/download.do?name=${can.key.id}'/>"
                                                  width="100px" height="100px"/>
-                                            <a href='<c:url value="/photoDelete.do?id=${can.id}"/>'>
+                                            <a href='<c:url value="/photoDelete.do?id=${can.key.id}"/>'>
                                                 <i class="fa fa-trash"></i>
                                             </a>
-                                            <a href='<c:url value="/photoUpload.jsp?id=${can.id}"/>'>
+                                            <a href='<c:url value="/photoUpload.jsp?id=${can.key.id}"/>'>
                                                 <i class="fa fa-plus"></i>
                                             </a>
+                                        </td>
+                                        <td>
+                                            <c:out value="${can.value}"/>
                                         </td>
                                     </tr>
                                 </c:forEach>
