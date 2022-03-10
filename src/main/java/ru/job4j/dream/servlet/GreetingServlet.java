@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,7 +23,6 @@ public class GreetingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Email email = GSON.fromJson(req.getReader(), Email.class);
         emails.add(email);
-
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(email);
@@ -42,5 +40,4 @@ public class GreetingServlet extends HttpServlet {
         output.flush();
         output.close();
     }
-
 }

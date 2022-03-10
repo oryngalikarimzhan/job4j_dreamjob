@@ -65,7 +65,7 @@ public class DbStoreTest {
     @Test
     public void whenCreateCandidate() {
         Store store = DbStore.instOf(config);
-        Candidate candidate = new Candidate(0, "Java Developer");
+        Candidate candidate = new Candidate(0, "Java Developer", 1);
         store.save(candidate);
         candidate.setId(1);
         Candidate candidateInDb = store.findCandidateById(candidate.getId());
@@ -75,8 +75,8 @@ public class DbStoreTest {
     @Test
     public void whenUpdateCandidate() {
         Store store = DbStore.instOf(config);
-        Candidate candidate = new Candidate(0, "Java Developer");
-        Candidate candidate1 = new Candidate(1, "Java Developer");
+        Candidate candidate = new Candidate(0, "Java Developer", 1);
+        Candidate candidate1 = new Candidate(1, "Java Developer", 1);
         store.save(candidate);
         store.save(candidate1);
         Candidate candidateInDb = store.findCandidateById(candidate1.getId());
@@ -86,7 +86,7 @@ public class DbStoreTest {
     @Test
     public void whenFindAllCandidates() {
         Store store = DbStore.instOf(config);
-        Candidate candidate = new Candidate(0, "Java Developer");
+        Candidate candidate = new Candidate(0, "Java Developer", 1);
         store.save(candidate);
         candidate.setId(1);
         assertThat(store.findAllCandidates(), is(List.of(candidate)));

@@ -29,7 +29,8 @@ public class UserServlet extends HttpServlet {
                             req.getParameter("password")
                     )
             );
-            req.setAttribute("message", "Данные успешно изменены. Выйдите с аккаунта чтобы изменения вступули в силу");
+            req.setAttribute("message", "Данные успешно изменены. "
+                    + "Переавторезуйтесь чтобы изменения вступули в силу");
         }
         req.getRequestDispatcher("/userProfile.jsp").forward(req, resp);
     }
