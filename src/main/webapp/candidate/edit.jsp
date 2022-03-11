@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.store.DbStore" %>
 <%@ page import="ru.job4j.dream.model.Candidate" %>
-<%@ page import="ru.job4j.dream.model.City" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
 <html lang="en">
